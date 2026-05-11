@@ -13,6 +13,7 @@ const ALLOWED_DOMAINS = [
   "mercadolivre.com.br",
   "magazineluiza.com.br",
   "magazinevoce.com.br",
+  "shopee.com.br",
 ];
 
 function validateProductUrl(url: string): boolean {
@@ -36,6 +37,7 @@ function detectStore(url: string): string | null {
     if (hostname.includes("mercadolivre")) return "Mercado Livre";
     if (hostname.includes("magazineluiza") || hostname.includes("magalu"))
       return "Magalu";
+    if (hostname.includes("shopee")) return "Shopee";
     return hostname.replace("www.", "");
   } catch {
     return null;
@@ -144,6 +146,30 @@ function extractBySelectors(
     }
   }
 
+  if (store === "Shopee") {
+    title =
+      $("div.attM6y").first().text()?.trim() ||
+      $("h1").first().text()?.trim() ||
+      null;
+
+    image =
+      $("div._8H_VXs img").attr("src") ||
+      $("img._3-PxHk").attr("src") ||
+      $("img.stkPov").attr("src") ||
+      null;
+
+    const priceText =
+      $("div.pqTWkA").first().text()?.trim() ||
+      $("div.YBrn-Z").text()?.trim() ||
+      $("div.vioxXd").text()?.trim() ||
+      null;
+
+    if (priceText) {
+      const cleaned = priceText.replace(/[^\d,.]/g, "").replace(",", ".");
+      price = parseFloat(cleaned) || null;
+    }
+  }
+
   return { title, image, price };
 }
 
@@ -160,6 +186,7 @@ function cleanTitle(raw: string | null): string | null {
     .replace(/\s*- Amazon.*$/, "")
     .replace(/\s*\|\s*Amazon.*$/i, "")
     .replace(/\s*\|\s*Magalu.*$/i, "")
+    .replace(/\s*\|\s*Shopee.*$/i, "")
     .trim();
 
   // Discard domain-only titles

@@ -12,7 +12,7 @@ Site de uma página onde convidados podem ver informações do evento, confirmar
 - **TypeScript**
 - **TailwindCSS 3** com tema customizado (sage, terracotta, cream)
 - **Componentes UI próprios** (Button, Card) seguindo padrão shadcn/ui
-- **Fontes Google**: Playfair Display (títulos) + Lora (corpo)
+- **Fontes Google**: Raleway (títulos) + Lora (corpo)
 - **cheerio** para scraping server-side de produtos
 - **@neondatabase/serverless** para banco de dados PostgreSQL serverless
 - **QR Code PIX** como imagem estática em `public/images/pix-qrcode.png`
@@ -77,7 +77,7 @@ O scraper também detecta a loja de origem (store) a partir do domínio da URL (
 
 Página em `/ferramentas` para adicionar presentes rapidamente:
 
-1. Colar URL do produto (Amazon, Mercado Livre, Magalu)
+1. Colar URL do produto (Amazon, Mercado Livre, Magalu, Shopee)
 2. Clicar "Buscar" → server action tenta extrair título, imagem e preço via scraping
 3. Se o scrape funcionar, campos são preenchidos automaticamente (imagem local gerada a partir do título: `/images/gifts/nome-do-produto.jpg`)
 4. Se falhar (bloqueio anti-bot), campos ficam disponíveis para preenchimento manual

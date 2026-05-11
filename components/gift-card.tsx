@@ -95,8 +95,8 @@ export function GiftCard({
           </a>
         </div>
 
-        {/* Price — tag style with Lora */}
-        <p className="mt-2 sm:mt-2.5 font-body text-base sm:text-lg font-bold italic tracking-normal text-terracotta-600">
+        {/* Price */}
+        <p className="mt-2 sm:mt-2.5 font-body text-base sm:text-lg font-semibold text-terracotta-600">
           {priceLabel}
         </p>
 

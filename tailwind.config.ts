@@ -49,7 +49,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["Playfair Display", "serif"],
+        display: ["Raleway", "sans-serif"],
         body: ["Lora", "serif"],
       },
     },

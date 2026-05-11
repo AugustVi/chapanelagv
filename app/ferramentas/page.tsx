@@ -86,7 +86,7 @@ export default function FerramentasPage() {
             Conversor de Links
           </h1>
           <p className="mt-3 font-body text-sage-600">
-            Cole o link de um produto (Amazon, Mercado Livre, Magalu) e receba o
+            Cole o link de um produto (Amazon, Mercado Livre, Magalu, Shopee) e receba o
             JSON pronto para colar no{" "}
             <code className="rounded bg-sage-100 px-1.5 py-0.5 text-sm">gifts.json</code>
           </p>
