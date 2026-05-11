@@ -25,7 +25,7 @@ export function FooterMessage() {
         </p>
 
         <p className="mt-4 font-body text-lg italic text-sage-500">
-          Com carinho, Ana & João
+          Com carinho, Gabrielle & Vinicius
         </p>
 
         {/* Heart decoration */}

@@ -1,5 +1,5 @@
 export function HeroSection() {
-  const couple = process.env.NEXT_PUBLIC_COUPLE_NAME || "Ana & João";
+  const couple = process.env.NEXT_PUBLIC_COUPLE_NAME || "Gabrielle & Vinicius";
   const date = process.env.NEXT_PUBLIC_EVENT_DATE || "20 de Dezembro de 2026";
 
   return (

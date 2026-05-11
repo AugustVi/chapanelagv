@@ -108,16 +108,16 @@ export function GiftsSection() {
 
         {/* Loading skeletons */}
         {loading && (
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {[1, 2, 3, 4, 5].map((i) => (
+          <div className="grid gap-3 sm:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="rounded-2xl border border-sage-200/60 bg-white p-5"
+                className="rounded-2xl border border-sage-200/60 bg-white p-3 sm:p-5"
               >
-                <div className="aspect-[4/3] animate-pulse rounded-xl bg-sage-100" />
-                <div className="mt-4 space-y-3">
+                <div className="aspect-square sm:aspect-[4/3] animate-pulse rounded-xl bg-sage-100" />
+                <div className="mt-3 sm:mt-4 space-y-2 sm:space-y-3">
                   <div className="h-4 w-3/4 animate-pulse rounded bg-sage-100" />
-                  <div className="h-4 w-1/2 animate-pulse rounded bg-sage-100" />
+                  <div className="h-5 w-1/2 animate-pulse rounded bg-sage-100" />
                   <div className="h-10 w-full animate-pulse rounded-full bg-sage-100" />
                 </div>
               </div>
@@ -142,7 +142,7 @@ export function GiftsSection() {
 
         {/* Product grid */}
         {!loading && !error && (
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="grid gap-3 sm:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {products.map((product) => (
               <GiftCard
                 key={product.url}
