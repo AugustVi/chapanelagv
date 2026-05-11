@@ -5,7 +5,9 @@ export function EventInfo() {
   const mapsLink = process.env.NEXT_PUBLIC_MAPS_LINK || "#";
 
   return (
-    <section className="px-6 py-24 sm:px-8">
+    <section className="relative overflow-hidden bg-warm-100/60 px-6 py-24 sm:px-8">
+      {/* Subtle bg ornament */}
+      <div className="pointer-events-none absolute right-0 top-0 h-[250px] w-[250px] -translate-y-1/2 translate-x-1/4 rounded-full bg-olive-200/15 blur-3xl" />
       <div className="mx-auto max-w-4xl">
         {/* Section header */}
         <div className="mb-16 text-center">
@@ -20,7 +22,7 @@ export function EventInfo() {
         <div className="grid gap-8 sm:grid-cols-3">
           {/* Date card */}
           <div className="group rounded-2xl border border-sage-200/60 bg-white p-8 text-center transition-all duration-300 hover:shadow-lg hover:shadow-sage-200/50">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-sage-100 text-sage-600 transition-colors group-hover:bg-sage-200">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-olive-100 text-olive-600 transition-colors group-hover:bg-olive-200">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -44,7 +46,7 @@ export function EventInfo() {
 
           {/* Address card */}
           <div className="group rounded-2xl border border-sage-200/60 bg-white p-8 text-center transition-all duration-300 hover:shadow-lg hover:shadow-sage-200/50">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-sage-100 text-sage-600 transition-colors group-hover:bg-sage-200">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-olive-100 text-olive-600 transition-colors group-hover:bg-olive-200">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -93,7 +95,7 @@ export function EventInfo() {
 
           {/* Gift suggestion card */}
           <div className="group rounded-2xl border border-sage-200/60 bg-white p-8 text-center transition-all duration-300 hover:shadow-lg hover:shadow-sage-200/50">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-sage-100 text-sage-600 transition-colors group-hover:bg-sage-200">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-olive-100 text-olive-600 transition-colors group-hover:bg-olive-200">
               <svg
                 className="h-6 w-6"
                 fill="none"

@@ -6,19 +6,19 @@ export function HeroSection() {
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
       {/* Decorative background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-sage-100/60 via-cream-50 to-cream-100/40" />
-        <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-sage-200/20 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-b from-warm-100 via-cream-50 to-warm-200/40" />
+        <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-olive-200/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-[300px] w-[300px] rounded-full bg-terracotta-200/15 blur-3xl" />
-        <div className="absolute left-0 top-1/3 h-[250px] w-[250px] rounded-full bg-cream-300/20 blur-3xl" />
+        <div className="absolute left-0 top-1/3 h-[250px] w-[250px] rounded-full bg-warm-300/30 blur-3xl" />
       </div>
 
       {/* Decorative top line */}
       <div className="mb-8 flex items-center gap-4">
-        <div className="h-px w-12 bg-sage-400/50" />
-        <span className="font-display text-xs uppercase tracking-[0.3em] text-sage-500">
+        <div className="h-px w-12 bg-olive-400/50" />
+        <span className="font-display text-xs uppercase tracking-[0.3em] text-olive-600">
           Chá de Panela
         </span>
-        <div className="h-px w-12 bg-sage-400/50" />
+        <div className="h-px w-12 bg-olive-400/50" />
       </div>
 
       {/* Main heading */}

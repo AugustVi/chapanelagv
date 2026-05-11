@@ -19,10 +19,11 @@ export function ConfirmationSection() {
   }
 
   return (
-    <section className="relative overflow-hidden px-6 py-24 sm:px-8">
+    <section className="relative overflow-hidden bg-olive-50/70 px-6 py-24 sm:px-8">
       {/* Background decoration */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute right-0 top-1/2 h-[400px] w-[400px] -translate-y-1/2 translate-x-1/2 rounded-full bg-sage-200/15 blur-3xl" />
+        <div className="absolute right-0 top-1/2 h-[400px] w-[400px] -translate-y-1/2 translate-x-1/2 rounded-full bg-olive-200/20 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-[200px] w-[200px] rounded-full bg-warm-300/20 blur-3xl" />
       </div>
 
       <div className="mx-auto max-w-2xl text-center">

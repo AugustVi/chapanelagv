@@ -96,7 +96,7 @@ export function GiftsSection() {
       <div className="mx-auto max-w-7xl">
         {/* Section header */}
         <div className="mb-16 text-center">
-          <span className="font-display text-xs uppercase tracking-[0.3em] text-sage-500">
+          <span className="font-display text-xs uppercase tracking-[0.3em] text-olive-600">
             Presentes
           </span>
           <h2 className="mt-4 font-display text-4xl font-semibold text-sage-800 sm:text-5xl">

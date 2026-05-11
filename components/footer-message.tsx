@@ -1,17 +1,20 @@
 export function FooterMessage() {
   return (
     <footer className="relative overflow-hidden px-6 py-24 sm:px-8">
+      {/* Fade in from cream at top */}
+      <div className="pointer-events-none absolute left-0 right-0 top-0 h-20 bg-gradient-to-b from-cream-50 to-transparent" />
       {/* Background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-t from-sage-200/40 via-cream-50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-olive-200/40 via-warm-100/60 to-transparent" />
+        <div className="absolute bottom-0 left-1/2 h-[300px] w-[300px] -translate-x-1/2 translate-y-1/2 rounded-full bg-olive-100/25 blur-3xl" />
       </div>
 
       <div className="mx-auto max-w-2xl text-center">
         {/* Divider */}
         <div className="mb-10 flex items-center justify-center gap-4">
-          <div className="h-px w-12 bg-sage-300/60" />
-          <span className="font-display text-2xl text-sage-400">&</span>
-          <div className="h-px w-12 bg-sage-300/60" />
+          <div className="h-px w-12 bg-olive-300/60" />
+          <span className="font-display text-2xl text-olive-400">&</span>
+          <div className="h-px w-12 bg-olive-300/60" />
         </div>
 
         <h2 className="font-display text-4xl font-semibold text-sage-800 sm:text-5xl">

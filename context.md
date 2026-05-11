@@ -10,7 +10,7 @@ Site de uma página onde convidados podem ver informações do evento, confirmar
 
 - **Next.js 15** (App Router)
 - **TypeScript**
-- **TailwindCSS 3** com tema customizado (sage, terracotta, cream)
+- **TailwindCSS 3** com tema customizado (sage, terracotta, cream, olive, warm)
 - **Componentes UI próprios** (Button, Card) seguindo padrão shadcn/ui
 - **Fontes Google**: Raleway (títulos) + Lora (corpo)
 - **cheerio** para scraping server-side de produtos

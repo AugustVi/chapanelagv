@@ -17,7 +17,10 @@ export function PixSection() {
   }
 
   return (
-    <section className="px-6 py-24 sm:px-8">
+    <section className="relative overflow-hidden bg-warm-100/50 px-6 py-24 sm:px-8">
+      {/* Fade in from cream at top */}
+      <div className="pointer-events-none absolute left-0 right-0 top-0 h-20 bg-gradient-to-b from-cream-50 to-transparent" />
+      <div className="pointer-events-none absolute left-0 top-0 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-olive-100/30 blur-3xl" />
       <div className="mx-auto max-w-4xl">
         {/* Section header */}
         <div className="mb-16 text-center">
@@ -95,6 +98,8 @@ export function PixSection() {
           </div>
         </div>
       </div>
+      {/* Fade to white at bottom */}                                                                                                                                                   
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent to-cream-50" />           
     </section>
   );
 }
