@@ -1,0 +1,7 @@
+Coloque aqui as imagens dos presentes com nomes descritivos.
+Ex: panela-eletrica.jpg, batedeira.jpg
+
+Depois referencie no gifts.json:
+  "image": "/images/gifts/panela-eletrica.jpg"
+
+Formatos aceitos: JPG, PNG, WebP. Tamanho recomendado: 600x450px.

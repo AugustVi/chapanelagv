@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://www.amazon.com.br/Panela-El%C3%A9trica-RCB50-Branco-Electrolux/dp/B076HSCY6Y/ref=pd_ci_mcx_mh_mcx_views_0_image",
+    "title": "Panela Elétrica RCB50 Branco - Electrolux",
+    "image": "/images/gifts/panela-eletrica-arroz.jpg",
+    "price": 199.90
+  },
+  {
+    "url": "https://www.mercadolivre.com.br/SEU-PRODUTO-AQUI",
+    "title": "Batedeira Planetária Mondial 600W",
+    "image": "https://images.unsplash.com/photo-1594385208974-2e75f8d7bb48?w=600&q=80",
+    "price": 149.90
+  },
+  {
+    "url": "https://www.amazon.com.br/dp/SEU-PRODUTO-AQUI-2",
+    "title": "Jogo de Facas Tramontina Inox - 6 Peças",
+    "image": "https://images.unsplash.com/photo-1593618998160-e34014e67546?w=600&q=80",
+    "price": 79.90
+  },
+  {
+    "url": "https://www.magazineluiza.com.br/SEU-PRODUTO-AQUI-2",
+    "title": "Conjunto de Potes Herméticos - 12 Peças",
+    "image": "https://images.unsplash.com/photo-1585435557343-3b092031a831?w=600&q=80",
+    "price": 59.90
+  },
+  {
+    "url": "https://www.mercadolivre.com.br/SEU-PRODUTO-AQUI-2",
+    "title": "Liquidificador Philips Walita 1200W",
+    "image": "https://images.unsplash.com/photo-1585515320310-259814833e62?w=600&q=80",
+    "price": 119.90
+  }
+]

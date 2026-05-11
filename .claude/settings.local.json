@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export PATH=\"$PATH:/c/Program Files/nodejs\")",
+      "Bash(npx shadcn@latest init -d --force)",
+      "Bash(npx shadcn-ui@latest init -d --force)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "WebFetch(domain:localhost)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl *)",
+      "Bash(taskkill //F //im node.exe)",
+      "Bash(npm uninstall *)"
+    ]
+  }
+}
