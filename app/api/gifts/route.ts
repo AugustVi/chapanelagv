@@ -16,8 +16,8 @@ export async function GET() {
     return {
       url: product.url,
       title: manual.title || product.title || null,
-      image: product.image || manual.image || null,
-      price: product.price ?? manual.price ?? null,
+      image: manual.image || product.image || null,
+      price: manual.price ?? product.price ?? null,
       store: product.store || manual.store || null,
     };
   });

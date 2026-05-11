@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { QRCodeSVG } from "qrcode.react";
 import { Button } from "./ui/button";
+
+const PIX_QRCODE_IMAGE = "/images/pix-qrcode.png";
 
 export function PixSection() {
   const pixKey = process.env.NEXT_PUBLIC_PIX_KEY || "";
@@ -32,13 +33,12 @@ export function PixSection() {
         </div>
 
         <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-start sm:justify-center">
-          {/* QR Code */}
-          <div className="rounded-2xl border border-sage-200/60 bg-white p-6 shadow-sm">
-            <QRCodeSVG
-              value={pixKey}
-              size={200}
-              level="M"
-              className="h-[200px] w-[200px]"
+          {/* QR Code — static image, replace /images/pix-qrcode.png to update */}
+          <div className="rounded-2xl border border-sage-200/60 bg-white p-3 shadow-sm">
+            <img
+              src={PIX_QRCODE_IMAGE}
+              alt="QR Code PIX"
+              className="h-[260px] w-[260px]"
             />
           </div>
 

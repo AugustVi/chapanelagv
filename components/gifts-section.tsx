@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import type { ProductInfo } from "@/lib/scraper";
 import { GiftCard } from "./gift-card";
 import { ReservationModal } from "./reservation-modal";
+import { WishlistFallback } from "./wishlist-fallback";
 
 export function GiftsSection() {
   const [products, setProducts] = useState<ProductInfo[]>([]);
@@ -154,6 +155,9 @@ export function GiftsSection() {
             ))}
           </div>
         )}
+
+        {/* Wishlist fallback */}
+        {!loading && !error && <WishlistFallback />}
 
         {/* Reservation modal */}
         {reservingProduct && (

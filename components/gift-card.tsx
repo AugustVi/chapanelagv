@@ -37,7 +37,7 @@ export function GiftCard({
           <img
             src={product.image}
             alt={product.title || "Presente"}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
         ) : (
