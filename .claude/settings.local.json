@@ -12,7 +12,11 @@
       "Bash(taskkill //F //im node.exe)",
       "Bash(npm uninstall *)",
       "Bash(npx tsc *)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(identify 18028127.jpg 4840289.jpg)",
+      "Bash(wmic datafile *)",
+      "Bash(npx image-size *)",
+      "Bash(node -e ' *)"
     ]
   }
 }

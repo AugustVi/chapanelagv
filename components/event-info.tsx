@@ -1,4 +1,4 @@
-import { TeapotIcon, HouseIcon, GiftIcon, FloatingSprig, ScatteredLeaves, VineBorder, BotanicalWreath } from "./botanical-florals";
+import { TeapotIcon, HouseIcon, GiftIcon, FloatingSprig, ScatteredLeaves, VineBorder } from "./botanical-florals";
 
 export function EventInfo() {
   const address = process.env.NEXT_PUBLIC_EVENT_ADDRESS || "Endereço do evento";
@@ -21,9 +21,13 @@ export function EventInfo() {
 
       <div className="mx-auto max-w-4xl">
         {/* Section header */}
-        <div className="relative mb-24 text-center">
-          {/* Small wreath behind header */}
-          <BotanicalWreath className="pointer-events-none absolute left-1/2 top-1/2 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 text-olive-500 opacity-12 sm:h-[340px] sm:w-[340px]" />
+        <div className="relative mb-28 sm:mb-32 text-center">
+          {/* Wreath behind header */}
+          <img
+            src="/images/18028127.jpg"
+            alt=""
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 opacity-20 mix-blend-multiply sm:h-[460px] sm:w-[460px]"
+          />
 
           <span className="relative font-script text-2xl text-olive-600 sm:text-3xl">
             Informações

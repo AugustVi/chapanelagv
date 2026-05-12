@@ -40,8 +40,8 @@ export function PixSection() {
 
         <div className="flex flex-col items-center gap-10 sm:flex-row sm:items-start sm:justify-center">
           {/* QR Code — vintage frame */}
-          <div className="rounded-3xl border border-sage-200/40 bg-white p-4 shadow-sm">
-            <div className="rounded-2xl bg-sage-100/20 p-2">
+          <div className="rounded-3xl border border-sage-200/40 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl bg-sage-100/20">
               <img
                 src={PIX_QRCODE_IMAGE}
                 alt="QR Code PIX"
