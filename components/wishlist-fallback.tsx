@@ -1,9 +1,11 @@
+import { FloralDivider } from "./botanical-florals";
+
 export function WishlistFallback() {
   return (
     <div className="mt-16 text-center">
-      <div className="mx-auto max-w-lg rounded-2xl border border-sage-200/60 bg-sage-50/80 px-6 py-8 sm:px-10">
+      <div className="mx-auto max-w-lg rounded-3xl border border-sage-200/60 bg-sage-50/80 px-6 py-10 shadow-sm sm:px-10">
         <svg
-          className="mx-auto h-10 w-10 text-sage-400"
+          className="mx-auto h-12 w-12 text-sage-400/50"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -15,17 +17,18 @@ export function WishlistFallback() {
             d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
           />
         </svg>
-        <h3 className="mt-4 font-display text-xl font-medium text-sage-800">
+        <h3 className="mt-5 font-display text-2xl font-medium text-sage-800">
           Não encontrou o que procurava?
         </h3>
-        <p className="mt-2 font-body text-sm text-sage-600">
+        <FloralDivider className="mt-5 text-olive-400" />
+        <p className="mt-5 font-body text-base leading-relaxed text-sage-500">
           Dê uma olhada na nossa wishlist da Amazon — tem mais ideias por lá.
         </p>
         <a
           href="https://www.amazon.com.br/hz/wishlist/ls/24X0JOLR7VHH?ref_=wl_share"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-sage-700 px-6 py-3 font-body text-sm font-medium text-white transition-all hover:bg-sage-800 shadow-lg shadow-sage-200/50"
+          className="mt-7 inline-flex items-center gap-2 rounded-full bg-sage-700 px-8 py-3.5 font-body text-sm font-medium text-white shadow-lg shadow-sage-300/30 transition-all duration-500 hover:bg-sage-800 hover:shadow-xl hover:shadow-sage-300/40 hover:-translate-y-0.5"
         >
           Ver Wishlist na Amazon
           <svg

@@ -75,8 +75,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["Raleway", "sans-serif"],
+        display: ["Playfair Display", "serif"],
         body: ["Lora", "serif"],
+        script: ["Great Vibes", "cursive"],
       },
     },
   },

@@ -16,11 +16,11 @@ export default function Home() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <ConfirmationSection />
+        <GiftsSection />
       </ScrollReveal>
 
       <ScrollReveal>
-        <GiftsSection />
+        <ConfirmationSection />
       </ScrollReveal>
 
       <ScrollReveal>
