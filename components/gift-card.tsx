@@ -11,6 +11,13 @@ interface GiftCardProps {
   reservationError: string | null;
 }
 
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+}
+
 export function GiftCard({
   product,
   reservedBy,
@@ -18,10 +25,7 @@ export function GiftCard({
   reservationError,
 }: GiftCardProps) {
   const priceLabel = product.price
-    ? new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(product.price)
+    ? formatCurrency(product.price)
     : "Preço a consultar";
 
   return (
@@ -101,7 +105,6 @@ export function GiftCard({
         </p>
 
         <div className="mt-auto space-y-2 pt-3 sm:pt-4">
-          {/* Reservation status */}
           {reservedBy !== null ? (
             <div className="rounded-2xl bg-sage-100/70 px-3 py-3 text-center">
               {reservedBy ? (

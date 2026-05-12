@@ -25,7 +25,7 @@ export function WishlistFallback() {
           Dê uma olhada na nossa wishlist da Amazon — tem mais ideias por lá.
         </p>
         <a
-          href="https://www.amazon.com.br/hz/wishlist/ls/24X0JOLR7VHH?ref_=wl_share"
+          href="https://www.amazon.com.br/hz/wishlist/ls/M9I5CYHVCNB2/ref=nav_wishlist_lists_1"
           target="_blank"
           rel="noopener noreferrer"
           className="mt-7 inline-flex items-center gap-2 rounded-full bg-sage-700 px-8 py-3.5 font-body text-sm font-medium text-white shadow-lg shadow-sage-300/30 transition-all duration-500 hover:bg-sage-800 hover:shadow-xl hover:shadow-sage-300/40 hover:-translate-y-0.5"

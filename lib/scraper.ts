@@ -44,6 +44,125 @@ function detectStore(url: string): string | null {
   }
 }
 
+// ─── URL ID extraction ──────────────────────────────────────────────
+function extractMLId(url: string): string | null {
+  const match = url.match(/\/(ML[BC])\/?[-]?\s*(\d{6,})/i);
+  if (match) return `${match[1].toUpperCase()}${match[2]}`;
+  // Alternative: site_id in path segment (produto.mercadolivre.com.br/MLB-123)
+  const altMatch = url.match(/(ML[BC])[-_]?(\d{6,})/i);
+  if (altMatch) return `${altMatch[1].toUpperCase()}${altMatch[2]}`;
+  return null;
+}
+
+function extractShopeeIds(
+  url: string,
+): { shopId: string; itemId: string } | null {
+  // Format: /product/{shop_id}/{item_id}
+  let match = url.match(/\/product\/(\d+)\/(\d+)/);
+  if (match) return { shopId: match[1], itemId: match[2] };
+  // Format: i.{shop_id}.{item_id}
+  match = url.match(/i\.(\d+)\.(\d+)/);
+  if (match) return { shopId: match[1], itemId: match[2] };
+  // Format: query params
+  try {
+    const p = new URL(url).searchParams;
+    const shopId =
+      p.get("shopid") || p.get("shop_id") || p.get("seller_id");
+    const itemId = p.get("itemid") || p.get("item_id");
+    if (shopId && itemId) return { shopId, itemId };
+  } catch { /* ignore */ }
+  return null;
+}
+
+// ─── API-based scrapers ────────────────────────────────────────────
+
+const FETCH_HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+  Accept:
+    "application/json, text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
+  "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
+};
+
+function proxyUrl(target: string): string {
+  const base = process.env.SCRAPING_PROXY_URL;
+  if (!base) return target;
+  // Supports formats like:
+  //   https://api.scrapingbee.com/v1/?api_key=KEY&url=
+  //   https://api.zenrows.com/v1/?apikey=KEY&url=
+  return base.endsWith("=") ? `${base}${encodeURIComponent(target)}` : `${base}${encodeURIComponent(target)}`;
+}
+
+async function scrapeMLApi(url: string): Promise<Partial<ProductInfo>> {
+  const itemId = extractMLId(url);
+  if (!itemId) return {};
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    const res = await fetch(`https://api.mercadolibre.com/items/${itemId}`, {
+      signal: controller.signal,
+      headers: { ...FETCH_HEADERS, Accept: "application/json" },
+    });
+
+    clearTimeout(timeout);
+    if (!res.ok) return {};
+
+    const data = await res.json();
+    return {
+      title: data.title || null,
+      image:
+        data.pictures?.[0]?.secure_url ||
+        data.pictures?.[0]?.url ||
+        data.thumbnail ||
+        null,
+      price: typeof data.price === "number" ? data.price : null,
+    };
+  } catch {
+    return {};
+  }
+}
+
+async function scrapeShopeeApi(
+  url: string,
+): Promise<Partial<ProductInfo>> {
+  const ids = extractShopeeIds(url);
+  if (!ids) return {};
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    const apiUrl = `https://shopee.com.br/api/v4/item/get?itemid=${ids.itemId}&shopid=${ids.shopId}`;
+    const res = await fetch(apiUrl, {
+      signal: controller.signal,
+      headers: {
+        ...FETCH_HEADERS,
+        Referer: "https://shopee.com.br/",
+        Accept: "application/json",
+      },
+    });
+
+    clearTimeout(timeout);
+    if (!res.ok) return {};
+
+    const json = await res.json();
+    const item = json?.data;
+    if (!item || item.error) return {};
+
+    return {
+      title: item.name || null,
+      image: item.image
+        ? `https://cf.shopee.com.br/file/${item.image}`
+        : null,
+      price: item.price ? item.price / 100_000 : null,
+    };
+  } catch {
+    return {};
+  }
+}
+
 // ─── CSS selector extraction (per-store fallback) ───────────────────
 function extractBySelectors(
   $: cheerio.CheerioAPI,
@@ -147,21 +266,26 @@ function extractBySelectors(
   }
 
   if (store === "Shopee") {
+    // Shopee CSS classes are auto-generated hashes that change every deploy.
+    // CSS selectors are a last resort; prefer the API path in scrapeProduct.
     title =
-      $("div.attM6y").first().text()?.trim() ||
+      $('meta[property="og:title"]').attr("content") ||
       $("h1").first().text()?.trim() ||
+      $('[class*="product-title"]').first().text()?.trim() ||
       null;
 
     image =
-      $("div._8H_VXs img").attr("src") ||
-      $("img._3-PxHk").attr("src") ||
-      $("img.stkPov").attr("src") ||
+      $('meta[property="og:image"]').attr("content") ||
+      $("img[src*='cf.shopee']").first().attr("src") ||
+      $("img[src*='img.shopee']").first().attr("src") ||
+      $("img[src*='shopee']").first().attr("src") ||
       null;
 
     const priceText =
-      $("div.pqTWkA").first().text()?.trim() ||
-      $("div.YBrn-Z").text()?.trim() ||
-      $("div.vioxXd").text()?.trim() ||
+      $('meta[property="product:price:amount"]').attr("content") ||
+      $("div").filter((_, el) =>
+        /R\$\s*[\d.,]+/.test($(el).text()),
+      ).first().text()?.trim() ||
       null;
 
     if (priceText) {
@@ -215,26 +339,50 @@ export async function scrapeProduct(url: string): Promise<ProductInfo> {
     store,
   };
 
+  // ── 0. API-based extraction (fast + reliable for ML, best shot for Shopee)
+  if (store === "Mercado Livre") {
+    const api = await scrapeMLApi(url);
+    if (api.title) {
+      result.title = cleanTitle(api.title);
+      result.image = api.image ?? null;
+      result.price = api.price ?? null;
+      // ML API is very reliable — return early if we have all fields
+      if (result.title && result.image && result.price) return result;
+    }
+  }
+
+  if (store === "Shopee") {
+    const api = await scrapeShopeeApi(url);
+    if (api.title) {
+      result.title = cleanTitle(api.title);
+      result.image = api.image ?? null;
+      result.price = api.price ?? null;
+      if (result.title && result.image && result.price) return result;
+    }
+  }
+
+  // ── 1. HTML scraping ──────────────────────────────────────────────
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
-    const response = await fetch(url, {
+    // For ML, use produto.mercadolivre.com.br which is more permissive
+    let fetchUrl = url;
+    if (store === "Mercado Livre") {
+      const mlId = extractMLId(url);
+      if (mlId) fetchUrl = `https://produto.mercadolivre.com.br/${mlId}`;
+    }
+
+    const response = await fetch(proxyUrl(fetchUrl), {
       signal: controller.signal,
       cache: "no-store",
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        ...FETCH_HEADERS,
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
         "Accept-Encoding": "gzip, deflate, br",
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
-        "Sec-Ch-Ua":
-          '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
-        "Sec-Ch-Ua-Mobile": "?0",
-        "Sec-Ch-Ua-Platform": '"Windows"',
         "Sec-Fetch-Dest": "document",
         "Sec-Fetch-Mode": "navigate",
         "Sec-Fetch-Site": "none",
@@ -250,7 +398,7 @@ export async function scrapeProduct(url: string): Promise<ProductInfo> {
     const html = await response.text();
     const $ = cheerio.load(html);
 
-    // ── 1. JSON-LD structured data ──────────────────────────────────
+    // ── 2. JSON-LD structured data ──────────────────────────────────
     const jsonLd = $('script[type="application/ld+json"]')
       .map((_, el) => {
         try {
@@ -303,7 +451,55 @@ export async function scrapeProduct(url: string): Promise<ProductInfo> {
       }
     }
 
-    // ── 2. Open Graph / meta tags ───────────────────────────────────
+    // ── 3. Embedded JSON in script tags (Magalu, other SPAs) ───────────
+    const scripts = $("script")
+      .map((_, el) => $(el).html() || "")
+      .get();
+
+    const statePatterns = [
+      /window\.__NEXT_DATA__\s*=\s*(\{.+?\});\s*$/m,
+      /window\.__STORE__\s*=\s*(\{.+?\});?\s*$/m,
+      /window\.__INITIAL_STATE__\s*=\s*(\{.+?\});?\s*$/m,
+      /window\.__PRELOADED_STATE__\s*=\s*(\{.+?\});?\s*$/m,
+      /window\.__NUXT__\s*=\s*(\{.+?\});?\s*$/m,
+    ];
+
+    for (const script of scripts) {
+      for (const pattern of statePatterns) {
+        const match = script.match(pattern);
+        if (!match) continue;
+        try {
+          const data = JSON.parse(match[1]);
+          // Walk common paths for product data
+          const paths = [
+            data?.props?.pageProps?.product,
+            data?.props?.pageProps?.initialData?.product,
+            data?.state?.product,
+            data?.product,
+          ];
+          for (const prod of paths) {
+            if (!prod) continue;
+            if (!result.title) result.title = prod.name || prod.title || null;
+            if (!result.image)
+              result.image =
+                prod.image ||
+                prod.images?.[0] ||
+                prod.thumbnail ||
+                prod.picture ||
+                null;
+            if (!result.price && prod.price) {
+              const p =
+                typeof prod.price === "number"
+                  ? prod.price
+                  : parseFloat(prod.price);
+              if (!isNaN(p)) result.price = p;
+            }
+          }
+        } catch { /* ignore parse errors */ }
+      }
+    }
+
+    // ── 4. Open Graph / meta tags ───────────────────────────────────
     if (!result.title) {
       result.title =
         $('meta[property="og:title"]').attr("content") ||
@@ -327,14 +523,14 @@ export async function scrapeProduct(url: string): Promise<ProductInfo> {
       if (priceMeta) result.price = parseFloat(priceMeta);
     }
 
-    // ── 3. CSS selector fallbacks (per-store) ───────────────────────
+    // ── 5. CSS selector fallbacks (per-store) ───────────────────────
     const cssResult = extractBySelectors($, store);
 
     if (!result.title) result.title = cssResult.title;
     if (!result.image) result.image = cssResult.image;
     if (!result.price) result.price = cssResult.price;
 
-    // ── 4. Clean title ──────────────────────────────────────────────
+    // ── 6. Clean title ──────────────────────────────────────────────
     result.title = cleanTitle(result.title);
 
     return result;

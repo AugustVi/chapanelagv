@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { buscarProduto } from "./actions";
+import { buscarProduto, type ScrapeResult } from "./actions";
 
 function detectStore(url: string): string | null {
   try {
@@ -10,6 +10,7 @@ function detectStore(url: string): string | null {
     if (hostname.includes("mercadolivre")) return "Mercado Livre";
     if (hostname.includes("magazineluiza") || hostname.includes("magalu"))
       return "Magalu";
+    if (hostname.includes("shopee")) return "Shopee";
     return hostname.replace("www.", "");
   } catch {
     return null;
@@ -34,6 +35,7 @@ export default function FerramentasPage() {
   const [error, setError] = useState<string | null>(null);
   const [scrapedImage, setScrapedImage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [lastResult, setLastResult] = useState<ScrapeResult | null>(null);
 
   const store = url.trim() ? detectStore(url.trim()) : null;
   const jsonOutput = buildGiftsJsonEntry(url, title, imageSlug, price);
@@ -44,19 +46,19 @@ export default function FerramentasPage() {
 
     setLoading(true);
     setError(null);
+    setLastResult(null);
 
     try {
       const result = await buscarProduto(trimmed);
+      setLastResult(result);
 
       if (result.title) setTitle(result.title);
       if (result.price) setPrice(result.price.toString().replace(".", ","));
       if (result.imageSlug) setImageSlug(result.imageSlug);
       setScrapedImage(result.image);
 
-      if (!result.title && !result.price) {
-        setError(
-          "Não foi possível extrair os dados automaticamente. Preencha manualmente abaixo.",
-        );
+      if (result.hint) {
+        setError(result.hint);
       }
     } catch {
       setError(
@@ -144,8 +146,36 @@ export default function FerramentasPage() {
 
         {/* Error / info */}
         {error && (
-          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4">
             <p className="font-body text-sm text-amber-700">{error}</p>
+          </div>
+        )}
+
+        {/* Field-level extraction status */}
+        {lastResult && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {(["title", "image", "price"] as const).map((field) => (
+              <span
+                key={field}
+                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-body text-xs ${
+                  lastResult.extracted[field]
+                    ? "bg-green-100 text-green-700"
+                    : "bg-amber-100 text-amber-700"
+                }`}
+              >
+                <span
+                  className={`inline-block h-1.5 w-1.5 rounded-full ${
+                    lastResult.extracted[field] ? "bg-green-500" : "bg-amber-500"
+                  }`}
+                />
+                {field === "title"
+                  ? "Título"
+                  : field === "image"
+                    ? "Imagem"
+                    : "Preço"}
+                {lastResult.extracted[field] ? " extraído" : " pendente"}
+              </span>
+            ))}
           </div>
         )}
 

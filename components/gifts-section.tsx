@@ -5,7 +5,7 @@ import type { ProductInfo } from "@/lib/scraper";
 import { GiftCard } from "./gift-card";
 import { ReservationModal } from "./reservation-modal";
 import { WishlistFallback } from "./wishlist-fallback";
-import { FloralDivider, FloatingSprig, FloatingBranch, VineBorder, ScatteredLeaves, CookingPotIcon } from "./botanical-florals";
+import { FloralDivider, FloatingSprig, FloatingBranch, VineBorder, ScatteredLeaves } from "./botanical-florals";
 
 export function GiftsSection() {
   const [products, setProducts] = useState<ProductInfo[]>([]);
@@ -99,7 +99,6 @@ export function GiftsSection() {
       <FloatingSprig className="animate-float-slow pointer-events-none absolute left-0 bottom-24 h-20 w-14 text-olive-500 opacity-12 sm:left-2 sm:bottom-32 sm:h-32 sm:w-20 sm:opacity-15" />
       <FloatingBranch className="animate-float pointer-events-none absolute left-0 top-1/3 h-8 w-20 text-olive-500 opacity-12 sm:h-14 sm:w-32 sm:opacity-18" />
       <ScatteredLeaves className="animate-float-delayed pointer-events-none absolute right-2 bottom-1/4 h-12 w-12 text-olive-500 opacity-10 sm:right-8 sm:h-20 sm:w-20 sm:opacity-12" />
-      <CookingPotIcon className="animate-float pointer-events-none absolute right-1 top-1/2 h-12 w-10 text-olive-600 opacity-20 sm:right-2 sm:h-18 sm:w-16 sm:opacity-25" />
 
       <div className="mx-auto max-w-7xl">
         {/* Section header */}
