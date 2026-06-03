@@ -43,8 +43,8 @@ export function ScrollReveal({ children, className }: ScrollRevealProps) {
 
     observer.observe(node);
 
-    // Safety net: mobile Safari sometimes never fires the observer callback.
-    // Fall back to scroll listener after a short delay.
+    // Safety net: if IntersectionObserver never fires, fall back to
+    // scroll listener after a short delay.
     const fallbackTimer = setTimeout(() => {
       if (cancelled) return;
       if (checkVisibility()) {
@@ -55,10 +55,10 @@ export function ScrollReveal({ children, className }: ScrollRevealProps) {
       function onScroll() {
         if (checkVisibility()) {
           observer.disconnect();
-          window.removeEventListener("scroll", onScroll, { passive: true });
+          window.removeEventListener("scroll", onScroll);
         }
       }
-      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("scroll", onScroll);
     }, 2000);
 
     return () => {
