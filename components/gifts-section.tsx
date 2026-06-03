@@ -146,10 +146,16 @@ export function GiftsSection() {
           </div>
         )}
 
-        {/* Product grid */}
+        {/* Product grid — reserved items pushed to the end */}
         {!loading && !error && (
           <div className="grid gap-3 sm:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {products.map((product) => (
+            {[...products]
+              .sort((a, b) => {
+                const aReserved = reservations[a.url] !== undefined;
+                const bReserved = reservations[b.url] !== undefined;
+                return aReserved === bReserved ? 0 : aReserved ? 1 : -1;
+              })
+              .map((product) => (
               <GiftCard
                 key={product.url}
                 product={product}

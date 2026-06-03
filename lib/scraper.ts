@@ -30,7 +30,7 @@ function validateProductUrl(url: string): boolean {
 }
 
 // ─── Store detection ────────────────────────────────────────────────
-function detectStore(url: string): string | null {
+export function detectStore(url: string): string | null {
   try {
     const hostname = new URL(url).hostname;
     if (hostname.includes("amazon")) return "Amazon";
