@@ -15,18 +15,57 @@ export function ScrollReveal({ children, className }: ScrollRevealProps) {
     const node = ref.current;
     if (!node) return;
 
+    let cancelled = false;
+
+    function checkVisibility() {
+      if (cancelled) return;
+      const rect = node!.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setVisible(true);
+        return true;
+      }
+      return false;
+    }
+
+    // Check if already in viewport on mount
+    if (checkVisibility()) return;
+
+    // IntersectionObserver for scroll-based reveal
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
-          observer.unobserve(node);
+          observer.unobserve(node!);
         }
       },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0, rootMargin: "0px 0px 0px 0px" },
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+
+    // Safety net: mobile Safari sometimes never fires the observer callback.
+    // Fall back to scroll listener after a short delay.
+    const fallbackTimer = setTimeout(() => {
+      if (cancelled) return;
+      if (checkVisibility()) {
+        observer.disconnect();
+        return;
+      }
+
+      function onScroll() {
+        if (checkVisibility()) {
+          observer.disconnect();
+          window.removeEventListener("scroll", onScroll, { passive: true });
+        }
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }, 2000);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
   return (
