@@ -21,12 +21,25 @@ export function GiftsSection() {
   >({});
 
   useEffect(() => {
+    const FETCH_TIMEOUT_MS = 12_000;
+
+    async function fetchWithTimeout(url: string, options?: RequestInit) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+      try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        return res;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
     Promise.all([
-      fetch("/api/gifts").then((res) => {
+      fetchWithTimeout("/api/gifts").then((res) => {
         if (!res.ok) throw new Error("Failed");
         return res.json();
       }),
-      fetch("/api/reservations")
+      fetchWithTimeout("/api/reservations")
         .then((res) => res.json())
         .then((data) => {
           const map: Record<string, string> = {};
