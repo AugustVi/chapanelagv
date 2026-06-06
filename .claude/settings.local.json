@@ -24,7 +24,8 @@
       "Bash(node -e \"process.stdin.on\\('data',d=>{const gifts=JSON.parse\\(d\\);const cota=gifts.find\\(g=>g.cotas\\);console.log\\(JSON.stringify\\(cota,null,2\\)\\)}\\)\")",
       "Bash(node -e \"const g=require\\('./data/gifts.json'\\); console.log\\(encodeURIComponent\\(g[0].url\\)\\)\")",
       "Bash(node -e \"const g=require\\('./data/gifts.json'\\); const c=g.find\\(i=>i.cotas\\); console.log\\(encodeURIComponent\\(c.url\\)\\)\")",
-      "Bash(taskkill /PID 1844 /F)"
+      "Bash(taskkill /PID 1844 /F)",
+      "PowerShell(rtk git *)"
     ]
   }
 }
